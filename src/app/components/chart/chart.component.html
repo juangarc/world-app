@@ -1,0 +1,24 @@
+<div class="container">
+    <label class="mt-4" for="riesgo">Nivel de riesgo:</label>
+  <select class="form-control" name="" id="riesgo" [(ngModel)]="riesgo" (change)="methodFinal(riesgo)">
+    <option *ngFor="let x of zonaDeforestacion" [ngValue]="x">{{
+      x.nivel_riesgo
+    }}</option>
+  </select>
+  <div style="text-align:center">
+    <google-chart
+      #chart
+      [title]="title"
+      [type]="type"
+      [data]="data"
+      [columnNames]="columnNames"
+      [options]="options"
+      [width]="width"
+      [height]="height"
+    >
+    </google-chart>
+  </div>
+  <ul>
+      <li *ngFor="let x of animalFin">{{x.animal}}</li>
+  </ul>
+</div>

@@ -10,15 +10,17 @@ import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { environment } from "../environments/environment";
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ChartComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    GoogleChartsModule.forRoot()
+    GoogleChartsModule.forRoot(),
+    FormsModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

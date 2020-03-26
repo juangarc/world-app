@@ -7,41 +7,24 @@ import { LoadDataService } from "./services/load-data.service";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
-  animals = [];
+/*   animals = [];
+  locations = [];
+  zonaDeforestacion;
+  final = [];
   title = "Animales que se encuentran en mayor riesgo según su zona";
   type = "PieChart";
   data = [];
   columnNames = ["Animal", "Zona"];
   options = {};
   width = 1000;
-  height = 500;
+  height = 500; */
   constructor(private api: LoadDataService) {
-    this.getAllAnimals()
+
+    //this.getAllAnimals();
+  /*   this.getAllLocations()
+    this.getAllZonas(); */
   }
 
-  getAllAnimals = () => {
-    this.api.getAllAnimals().subscribe(
-      data => {
-        this.animals = [];
-        data.forEach((animalsData: any) => {
-          this.animals.push({
-            descripcion: animalsData.payload.doc.data()
-          });
-        });
-
-        this.title = "Animales que se encuentran en mayor riesgo según su zona";
-        this.type = "BarChart";
-        this.data = this.animals;
-        this.columnNames = ["Animal", "Zona"];
-        this.options = {};
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
-
-  ngOnInit() {
-   
-  }
+ 
+  ngOnInit() {}
 }
