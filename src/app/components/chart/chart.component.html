@@ -1,4 +1,6 @@
 <div class="container">
+  <h3>Mapa de calor, según porcentaje de riesgo ecológico</h3>
+  <div id="regions_div" class="mt-4"tyle="width: 900px; height: 500px;"></div>
     <label class="mt-4" for="riesgo">Nivel de riesgo:</label>
   <select class="form-control" name="" id="riesgo" [(ngModel)]="riesgo" (change)="methodFinal(riesgo)">
     <option *ngFor="let x of zonaDeforestacion" [ngValue]="x">{{

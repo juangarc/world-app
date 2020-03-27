@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LoadDataService } from "src/app/services/load-data.service";
+import { google } from 'google-maps';
+declare var google:any;
 
 @Component({
   selector: "app-chart",
@@ -7,13 +9,14 @@ import { LoadDataService } from "src/app/services/load-data.service";
   styleUrls: ["./chart.component.css"]
 })
 export class ChartComponent implements OnInit {
-  value = true
+  value = true;
   animals = [];
   subtitle;
   riesgoTitle;
   locations = [];
   animalFin = [];
   zonaDeforestacion;
+  zonaMapChart;
   riesgo;
   final = [];
   title = "Animales que se encuentran en mayor riesgo según su zona";
@@ -27,6 +30,36 @@ export class ChartComponent implements OnInit {
     this.getAllAnimals();
     this.getAllLocations();
     this.getAllZonas();
+
+    this.mapResource()
+  }
+
+  mapResource() {
+
+    google.charts.load("current", {
+      packages: ["geomap"],
+      // Note: you will need to get a mapsApiKey for your project.
+      // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+      mapsApiKey: "AIzaSyAWcCRVsUSrRkoQL43sUqdTjf1NVV3RxM4"
+    });
+    google.charts.setOnLoadCallback(drawRegionsMap);
+    function drawRegionsMap() {
+      var data = google.visualization.arrayToDataTable([
+        ["Regions", "Porcentaje de riesgo"],
+        ["Antioquia", 200],
+        ["Valle del Cauca", 500],
+        ["Bolívar", 600]
+      ]);
+      var options = {};
+      options["region"] = "CO";
+      options["resolution"] = "provinces";
+
+      var chart = new google.visualization.GeoChart(
+        document.getElementById("regions_div")
+      );
+      chart.draw(data, options);
+    }
+
   }
 
   getAllAnimals = () => {
@@ -37,7 +70,7 @@ export class ChartComponent implements OnInit {
           this.animals.push({
             animal: animalsData.payload.doc.data().animal,
             propietario: animalsData.payload.doc.data().propietario,
-            cantidad: animalsData.payload.doc.data().cantidad,
+            cantidad: animalsData.payload.doc.data().cantidad
           });
         });
         console.log(this.animals);
@@ -92,9 +125,12 @@ export class ChartComponent implements OnInit {
             lactitud: ZonasData.payload.doc.data().lactitud,
             longitud: ZonasData.payload.doc.data().longitud,
             area: ZonasData.payload.doc.data().area,
-            nivel_riesgo: ZonasData.payload.doc.data().nivel_riesgo
+            nivel_riesgo: ZonasData.payload.doc.data().nivel_riesgo,
+            depto: ZonasData.payload.doc.data().depto,
+            porcentaje_riesgo: ZonasData.payload.doc.data().porcentaje_riesgo
           });
         });
+        this.zonaMapChart = this.zonaDeforestacion
         console.log(this.zonaDeforestacion);
         /*   this.title = "Animales que se encuentran en mayor riesgo según su zona";
         this.type = "BarChart";
@@ -110,23 +146,24 @@ export class ChartComponent implements OnInit {
 
   methodFinal(lactitudZona) {
     this.riesgoTitle = lactitudZona.nivel_riesgo;
-    this.subtitle = lactitudZona.area
-    this.value = false
+    this.subtitle = lactitudZona.area;
+    this.value = false;
     this.final = this.locations.filter(
-      x => x.lactitud == lactitudZona.lactitud && x.longitud == lactitudZona.longitud
+      x =>
+        x.lactitud == lactitudZona.lactitud &&
+        x.longitud == lactitudZona.longitud
     );
 
     this.animalFin = this.animals.filter(
       x => x.propietario == this.final[0].propietario
     );
     console.log(this.animalFin);
-    let animalCantidad = []
+    let animalCantidad = [];
     this.animalFin.forEach((animalsData: any) => {
       animalCantidad.push([animalsData.animal, parseInt(animalsData.cantidad)]);
     });
     console.log(animalCantidad);
-    
-      
+
     this.title = "Animales que se encuentran en mayor riesgo según su zona";
     this.type = "BarChart";
     this.data = animalCantidad;
@@ -134,5 +171,7 @@ export class ChartComponent implements OnInit {
     this.options = {};
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+   
+  }
 }
