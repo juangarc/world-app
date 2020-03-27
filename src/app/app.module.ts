@@ -11,6 +11,7 @@ import { environment } from "../environments/environment";
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { ChartComponent } from './components/chart/chart.component';
+import { AgmCoreModule } from '@agm/core'
 
 @NgModule({
   declarations: [AppComponent, ChartComponent],
@@ -20,9 +21,12 @@ import { ChartComponent } from './components/chart/chart.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     GoogleChartsModule.forRoot(),
-    FormsModule
+    FormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAWcCRVsUSrRkoQL43sUqdTjf1NVV3RxM4'
+    })
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

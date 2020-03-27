@@ -7,7 +7,10 @@ import { LoadDataService } from "src/app/services/load-data.service";
   styleUrls: ["./chart.component.css"]
 })
 export class ChartComponent implements OnInit {
+  value = true
   animals = [];
+  subtitle;
+  riesgoTitle;
   locations = [];
   animalFin = [];
   zonaDeforestacion;
@@ -106,8 +109,11 @@ export class ChartComponent implements OnInit {
   };
 
   methodFinal(lactitudZona) {
+    this.riesgoTitle = lactitudZona.nivel_riesgo;
+    this.subtitle = lactitudZona.area
+    this.value = false
     this.final = this.locations.filter(
-      x => x.lactitud == lactitudZona.lactitud
+      x => x.lactitud == lactitudZona.lactitud && x.longitud == lactitudZona.longitud
     );
 
     this.animalFin = this.animals.filter(
@@ -116,10 +122,7 @@ export class ChartComponent implements OnInit {
     console.log(this.animalFin);
     let animalCantidad = []
     this.animalFin.forEach((animalsData: any) => {
-      animalCantidad.push({
-        animal: animalsData.animal,
-        cantidad: animalsData.cantidad,
-      });
+      animalCantidad.push([animalsData.animal, parseInt(animalsData.cantidad)]);
     });
     console.log(animalCantidad);
     
@@ -127,7 +130,7 @@ export class ChartComponent implements OnInit {
     this.title = "Animales que se encuentran en mayor riesgo según su zona";
     this.type = "BarChart";
     this.data = animalCantidad;
-    this.columnNames = ["Animal", "Zona"];
+    this.columnNames = ["Animal", "Cantidad"];
     this.options = {};
   }
 

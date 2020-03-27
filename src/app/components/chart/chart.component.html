@@ -5,7 +5,9 @@
       x.nivel_riesgo
     }}</option>
   </select>
-  <div style="text-align:center">
+
+  <div style="text-align:center" class="mt-4">
+    <h2 [hidden]="value">Animales de riesgo <span style="color: red;">{{riesgoTitle}}</span> en la ciudad de {{subtitle}}</h2>
     <google-chart
       #chart
       [title]="title"
@@ -18,7 +20,4 @@
     >
     </google-chart>
   </div>
-  <ul>
-      <li *ngFor="let x of animalFin">{{x.animal}}</li>
-  </ul>
 </div>

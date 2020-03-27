@@ -1,3 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
-
+<agm-map [latitude]="lat" [longitude]="lng">
+    <agm-marker *ngFor="let x of zonaDeforestacion" [latitude]="x.lactitud" [longitude]="x.longitud"></agm-marker>
+</agm-map>
+<hr>
 <router-outlet></router-outlet>
